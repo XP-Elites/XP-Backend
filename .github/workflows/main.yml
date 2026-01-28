@@ -20,10 +20,10 @@ jobs:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKER_PAT }}
       - name: Run build script
-        run: bash ./build.sh ${{var.IMAGE_NAME}} ${{github.sha}}
+        run: bash ./build.sh ${{vars.IMAGE_NAME}} ${{github.sha}}
       - name: Push latest
-        run: docker image push ${{var.IMAGE_NAME}}:latest && docker image push ${{var.IMAGE_NAME}}:${{github.sha}}
+        run: docker image push ${{vars.IMAGE_NAME}}:latest && docker image push ${{vars.IMAGE_NAME}}:${{github.sha}}
       - name: Update docker infrastructure
-        run: gh workflow run ${{var.INFRA_DEPLOY_REPO}} --repo ${{var.INFRA_REPO}} --ref main
+        run: gh workflow run ${{vars.INFRA_DEPLOY_REPO}} --repo ${{vars.INFRA_REPO}} --ref main
         env:
           GH_TOKEN: ${{secrets.PAT}}

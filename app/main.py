@@ -14,7 +14,7 @@ version = os.getenv("APP_VERSION", "0.0.0")
 @app.get("/")
 async def get_api_info(response: Response):
     return {
-        "name": "FYP-API",
+        "name": "XP-API",
         "version": version,
         "status": await get_health_check(response),
     }
