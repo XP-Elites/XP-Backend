@@ -1,0 +1,6 @@
+.env
+.env.prod
+*.iml
+.venv
+*.csv
+__pycache__/

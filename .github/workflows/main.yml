@@ -1,0 +1,29 @@
+name: main workflow
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-deploy:
+    environment: prod
+    runs-on: [linux]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Set up Docker
+        uses: docker/setup-docker-action@v4
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKER_PAT }}
+      - name: Run build script
+        run: bash ./build.sh ${{var.IMAGE_NAME}} ${{github.sha}}
+      - name: Push latest
+        run: docker image push ${{var.IMAGE_NAME}}:latest && docker image push ${{var.IMAGE_NAME}}:${{github.sha}}
+      - name: Update docker infrastructure
+        run: gh workflow run ${{var.INFRA_DEPLOY_REPO}} --repo ${{var.INFRA_REPO}} --ref main
+        env:
+          GH_TOKEN: ${{secrets.PAT}}
