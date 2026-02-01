@@ -7,7 +7,7 @@ from healthcheck import health_check_router
 from healthcheck.router import get_health_check
 
 app = FastAPI()
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 version = os.getenv("APP_VERSION", "0.0.0")
 
 
