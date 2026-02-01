@@ -23,7 +23,7 @@ jobs:
         run: bash ./build.sh ${{vars.IMAGE_NAME}} ${{github.sha}}
       - name: Push latest
         run: docker image push ${{vars.IMAGE_NAME}}:latest && docker image push ${{vars.IMAGE_NAME}}:${{github.sha}}
-      - name: Update docker infrastructure
-        run: gh workflow run ${{vars.INFRA_DEPLOY_REPO}} --repo ${{vars.INFRA_REPO}} --ref main
-        env:
-          GH_TOKEN: ${{secrets.PAT}}
+#      - name: Update docker infrastructure
+#        run: gh workflow run ${{vars.INFRA_SCRIPT}} --repo ${{vars.INFRA_DEPLOY_REPO}} --ref main
+#        env:
+#          GH_TOKEN: ${{secrets.PAT}}
