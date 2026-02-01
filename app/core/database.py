@@ -49,7 +49,7 @@ def _get_var(name: str, default: str | None = None) -> str:
     raise RuntimeError(f"Required environment variable '{name}' is not set.")
 
 
-ssm: SSMClient = boto3.client("ssm")
+ssm: SSMClient = boto3.client(service_name="ssm", region_name="eu-west-1")
 
 
 DATABASE_URL = (
