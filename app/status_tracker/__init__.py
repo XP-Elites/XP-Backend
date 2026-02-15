@@ -1,1 +1,1 @@
-from .status_tracker import JobStatusService
+from .JobStatusService import JobStatusService

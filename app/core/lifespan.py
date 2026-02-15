@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from core.database_service import DatabaseService, create_db_from_env
 from core.rabbit_service import RabbitService, create_rabbit_from_env
 from core.storage_service import create_storage_from_env, StorageService
-from status_tracker.status_tracker import JobStatusService, create_job_status_service
+from status_tracker.JobStatusService import JobStatusService, create_job_status_service
 
 
 @asynccontextmanager
