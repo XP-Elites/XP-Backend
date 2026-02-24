@@ -1,7 +1,7 @@
 import logging
 
 from sqlalchemy import NullPool, text
-from sqlalchemy.orm import sessionmaker, DeclarativeBase
+from sqlalchemy.orm import sessionmaker, DeclarativeBase, Session
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncEngine, AsyncSession
 from .util import get_logger, get_var
 
@@ -45,7 +45,7 @@ class DatabaseService:
             raise RuntimeError("Engine not initialised yet")
         return self._engine
 
-    def session_local(self):
+    def session_local(self) -> sessionmaker[Session]:
         if self._SessionLocal is None:
             raise RuntimeError("Session not initialised yet")
         return self._SessionLocal

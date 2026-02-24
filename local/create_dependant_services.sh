@@ -19,6 +19,7 @@ docker run -d \
   -e POSTGRES_USER=admin \
   -e POSTGRES_PASSWORD=secret \
   -e POSTGRES_DB=appdb \
+  -v ./init.sql:/docker-entrypoint-initdb.d/01-init.sql \
   -v $PREFIX-pgdata:/var/lib/postgresql \
   -p 5432:5432 \
   postgres:18.1

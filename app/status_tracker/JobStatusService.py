@@ -59,7 +59,7 @@ class JobStatusService:
                 .where(JobStatus.uuid == uuid)
                 .values(status=StatusTypes.IN_QUEUE)
             )
-            session.execute(query)
+            await session.execute(query)
             await session.commit()
 
     async def change_status_from_message(self, message: AbstractIncomingMessage):

@@ -101,6 +101,7 @@ class GitService:
     async def process_repo(self, link: str):
         uuid = await self._status_service.init_status()
         self._background_tasks.add_task(self.download_repo, link, uuid)
+        return uuid
 
 
 def get_git_service(
