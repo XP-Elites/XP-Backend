@@ -7,13 +7,13 @@ class MockDatabaseService:
     def __init__(self, db_url: str = ""):
         self.db_url = db_url
         self._SessionLocal = None
-    
+
     def init(self):
         self._SessionLocal = MagicMock()
-    
+
     def session_local(self):
         return self._SessionLocal
-    
+
     def is_ok(self):
         return True
 
@@ -23,16 +23,16 @@ class MockRabbitService:
         self._host = host
         self._connection = MagicMock()
         self._channel = MagicMock()
-    
+
     async def connect(self):
         pass
-    
+
     def is_ok(self) -> bool:
         return True
-    
+
     async def close(self):
         pass
-    
+
     @property
     def channel(self):
         return self._channel
@@ -42,13 +42,13 @@ class MockStorageService:
     def __init__(self, base_storage: str = "", max_concurrency: int = 8):
         self._base_storage = base_storage or tempfile.gettempdir()
         self._max_concurrency = max_concurrency
-    
+
     async def download_git_repo(self, link: str, uuid):
         pass
-    
+
     async def store_files(self, uuid, files):
         pass
-    
+
     def is_ok(self) -> bool:
         return True
 
@@ -57,13 +57,13 @@ class MockJobStatusService:
     def __init__(self, database_service=None, rabbit_service=None):
         self.database_service = database_service
         self.rabbit_service = rabbit_service
-    
+
     async def init(self):
         pass
-    
+
     async def init_status(self):
         return uuid4()
-    
+
     async def send_job(self, uuid):
         pass
 

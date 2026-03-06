@@ -27,8 +27,7 @@ def _setup_mock_services():
     app.state.rabbit_service = asyncio.run(create_mock_rabbit_from_env())
     app.state.job_status_service = asyncio.run(
         create_mock_job_status_service(
-            app.state.database_service, 
-            app.state.rabbit_service
+            app.state.database_service, app.state.rabbit_service
         )
     )
 
