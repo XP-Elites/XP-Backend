@@ -18,4 +18,4 @@ To deploy the web app:
 ```
 WARNING!
 The web app deployment script will automatically remove containers named:
-- xp-local-webserver
+- xp-webserver-local
