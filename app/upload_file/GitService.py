@@ -89,7 +89,8 @@ class GitService:
         link: str,
     ):
         size = await self.get_repo_size(link)
-        if size > 1024 * 1024 * 100:  # 100MB
+        # GitHub API `size` is in kilobytes; 100 MB ≈ 100 * 1024 KB
+        if size > 100 * 1024:
             raise RepoTooLargeException(
                 "Repository exceeds maximum supported size (100mb)"
             )
