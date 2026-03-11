@@ -5,7 +5,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY app/ .
-COPY prod.env .
+COPY prod.env .env
 RUN apt-get update && \
     apt-get install -y git && \
     apt-get clean && \
