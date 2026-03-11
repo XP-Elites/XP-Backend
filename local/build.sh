@@ -14,7 +14,7 @@ if [[ ${#} -lt 1 ]]; then
   exit 1
 fi
 
-docker build . -t "${image_name}":latest
+docker build .. -t "${image_name}":latest -f "./Dockerfile"
 if [[ ${#} -eq 2 ]]; then
   docker image tag "${image_name}":latest "${image_name}":"${build_id}"
 fi
