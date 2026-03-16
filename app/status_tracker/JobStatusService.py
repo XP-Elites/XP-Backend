@@ -8,7 +8,7 @@ from aio_pika.abc import (
 )
 from aio_pika import Message, DeliveryMode, ExchangeType
 from edwh_uuid7 import uuid7
-from sqlalchemy import update
+from sqlalchemy import update, select
 
 from core import RabbitService, DatabaseService
 from .model import JobStatus, StatusTypes
@@ -41,7 +41,10 @@ class JobStatusService:
 
     async def get_status(self, uuid: UUID) -> JobStatus | None:
         async with self._database_service.session_local()() as session:
-            return session.query(JobStatus).filter(JobStatus.uuid == uuid).first()
+            result = await session.execute(
+                select(JobStatus).where(JobStatus.uuid == uuid)
+            )
+            return result.scalar_one_or_none()
 
     async def init_status(self) -> UUID:
         uuid = uuid7()  # V7 UUID with timestamp info

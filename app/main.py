@@ -2,14 +2,15 @@ import logging
 import time
 
 from fastapi import FastAPI, Response, status
-from fastapi.params import Depends
 from core.lifespan import lifespan
 from core.util import get_var
+from fastapi.params import Depends
 from healthcheck import (
     health_check_router,
     HealthCheckService,
     get_health_check_service,
 )
+from status_tracker.router import status_router
 from upload_file import upload_router
 
 app = FastAPI(lifespan=lifespan)
@@ -44,4 +45,5 @@ async def get_api_info(
 
 
 app.include_router(router=health_check_router)
+app.include_router(router=status_router)
 app.include_router(router=upload_router)

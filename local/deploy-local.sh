@@ -13,6 +13,8 @@ docker rm -f xp-webserver-local 2>/dev/null || true
 
 docker run \
   -p 8000:8000 \
+  -e APP_VERSION=0.0.0-local \
+  --user root \
   -v ~/.aws:/home/appuser/.aws:ro \
   -v webserver:/storage \
   --name "xp-webserver-local" \

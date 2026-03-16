@@ -2,7 +2,7 @@ import asyncio
 import logging
 import os
 import shutil
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from uuid import UUID
 
 import aiofiles
@@ -49,10 +49,19 @@ class StorageService:
         base_dir = Path(f"{self._base_storage}/{uuid}")
         base_dir.mkdir(parents=True, exist_ok=True)
         for file in files:
+            # Browser folder uploads use webkitRelativePath; keep nested structure safely.
+            normalized_name = file.filename.replace("\\", "/")
+            rel_path = PurePosixPath(normalized_name)
+
+            # Prevent path traversal or absolute writes outside the job directory.
+            if rel_path.is_absolute() or any(part == ".." for part in rel_path.parts):
+                target_path = base_dir / rel_path.name
+            else:
+                target_path = base_dir.joinpath(*rel_path.parts)
+
+            target_path.parent.mkdir(parents=True, exist_ok=True)
             async with self._semaphore:
-                async with aiofiles.open(
-                    f"{base_dir}/{file.filename}", "wb"
-                ) as out_file:
+                async with aiofiles.open(str(target_path), "wb") as out_file:
                     while content := await file.read(self.CHUNK_SIZE):  # Read chunks
                         await out_file.write(content)  # Write chunks
 
