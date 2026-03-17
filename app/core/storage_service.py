@@ -1,4 +1,5 @@
 import asyncio
+import json
 import logging
 import os
 import shutil
@@ -27,6 +28,14 @@ class StorageService:
     def __init__(self, base_storage: str, max_concurrency: int):
         self._base_storage = base_storage
         self._semaphore = asyncio.Semaphore(max_concurrency)
+
+    async def get_results_file(self, uuid: UUID) -> dict | None:
+        results_path = Path(self._base_storage) / str(uuid) / "results.json"
+        if results_path.exists():
+            with open(results_path, "r") as results_file:
+                results = json.load(results_file)
+                return results
+        return None
 
     async def download_git_repo(self, link: str, uuid: UUID):
         if not self.is_ok():

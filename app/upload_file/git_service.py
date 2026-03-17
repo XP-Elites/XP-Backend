@@ -14,7 +14,7 @@ from urllib.parse import urlparse, quote
 from core.lifespan import get_job_status_service
 from core.storage_service import StorageService
 
-from status_tracker import JobStatusService
+from core.job_status import JobStatusService
 
 logger = get_logger(__name__, logging.DEBUG)
 

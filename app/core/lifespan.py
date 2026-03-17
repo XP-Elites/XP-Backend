@@ -3,12 +3,13 @@ from contextlib import asynccontextmanager
 import dotenv
 
 from fastapi import Request
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Session
 
 from core.database_service import DatabaseService, create_db_from_env
 from core.rabbit_service import RabbitService, create_rabbit_from_env
 from core.storage_service import create_storage_from_env, StorageService
-from status_tracker.JobStatusService import JobStatusService, create_job_status_service
+from core.job_status import JobStatusService, create_job_status_service
 
 
 @asynccontextmanager
@@ -32,7 +33,7 @@ async def lifespan(app):
 
 def get_database_session(request: Request):
     db_provider: DatabaseService = request.app.state.database_service
-    session: Session = (
+    session: AsyncSession = (
         db_provider.session_local()()
     )  # First get, then init the session.
     try:

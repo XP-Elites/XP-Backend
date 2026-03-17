@@ -45,14 +45,14 @@ class DatabaseService:
             raise RuntimeError("Engine not initialised yet")
         return self._engine
 
-    def session_local(self) -> sessionmaker[Session]:
+    def session_local(self) -> sessionmaker[AsyncSession]:
         if self._SessionLocal is None:
             raise RuntimeError("Session not initialised yet")
         return self._SessionLocal
 
-    def is_ok(self):
+    async def is_ok(self):
         try:
-            self.session_local()().execute(text("SELECT 1;"))
+            await self.session_local()().execute(text("SELECT 1;"))
         except Exception as e:
             logger.error(e)
             return False

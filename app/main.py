@@ -23,7 +23,7 @@ origins = [
     "http://localhost",
     "http://localhost:3000",
     "https://xp.cattoindustries.com",
-    "https://api.xp.cattoindustries.com"
+    "https://api.xp.cattoindustries.com",
 ]
 
 app.add_middleware(
@@ -31,8 +31,9 @@ app.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
+
 
 @app.middleware("http")
 async def timing_middleware(request, call_next):

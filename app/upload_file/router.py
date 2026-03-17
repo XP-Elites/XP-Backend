@@ -6,8 +6,8 @@ from fastapi import (
     HTTPException,
 )
 from pydantic import BaseModel
-from .FileUploadService import FileUploadService, get_file_upload_service
-from .GitService import RepoTooLargeException, get_git_service, GitService
+from .file_upload_service import FileUploadService, get_file_upload_service
+from .git_service import RepoTooLargeException, get_git_service, GitService
 
 upload_router = APIRouter(prefix="/upload")
 
