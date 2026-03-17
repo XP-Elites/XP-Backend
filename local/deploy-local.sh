@@ -5,7 +5,7 @@ NETWORK_NAME="xp-local-network"
 
 # Create network if it doesn't exist
 docker network inspect "$NETWORK_NAME" >/dev/null 2>&1 || \
-  docker network create "$NETWORK_NAME"
+  docker network create "$NETWORK_NAME" -d host
 
 image_name="xp-webserver"
 ./build.sh "$image_name"
