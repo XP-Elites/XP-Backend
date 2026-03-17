@@ -23,8 +23,8 @@ class HealthCheckService:
         self.rabbit_service: RabbitService = rabbit_service
         self.storage_service: StorageService = storage_service
 
-    def get_api_status(self) -> tuple[bool, dict[str, str]]:
-        db_ok = self.database_service.is_ok()
+    async def get_api_status(self) -> tuple[bool, dict[str, str]]:
+        db_ok = await self.database_service.is_ok()
         rabbit_ok = self.rabbit_service.is_ok()
         storage_ok = self.storage_service.is_ok()
         body = {
