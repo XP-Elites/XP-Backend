@@ -12,6 +12,7 @@ from healthcheck import (
     HealthCheckService,
     get_health_check_service,
 )
+from status_tracker import status_router
 from upload_file import upload_router
 
 app = FastAPI(lifespan=lifespan)
@@ -61,3 +62,4 @@ async def get_api_info(
 
 app.include_router(router=health_check_router)
 app.include_router(router=upload_router)
+app.include_router(router=status_router)
