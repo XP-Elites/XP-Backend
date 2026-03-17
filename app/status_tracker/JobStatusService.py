@@ -66,13 +66,9 @@ class JobStatusService:
             await session.commit()
 
     async def change_status_from_message(self, message: AbstractIncomingMessage):
-        result = message.body.decode().split("//", 1)
-        logging.info(f"Received status update: {result}")
-        if len(result) != 2:
-            raise ValueError(
-                f"Invalid message body format: {message.body!r}, expected '<uuid>/<status>'"
-            )
-        uuid, status = UUID(result[0]), StatusTypes(int(result[1]))
+        body = message.body
+        uuid = UUID(bytes=body[:16])
+        status = StatusTypes(int.from_bytes(body[16:], "big"))
         async with self._database_service.session_local()() as session:
             query = (
                 update(JobStatus).where(JobStatus.uuid == uuid).values(status=status)

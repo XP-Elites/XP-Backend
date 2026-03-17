@@ -12,6 +12,7 @@ class RabbitService:
     async def connect(self):
         self._connection = await aio_pika.connect_robust(host=self._host)
         self._channel = await self._connection.channel()
+        await self._channel.set_qos(prefetch_count=6)
 
     def is_ok(self) -> bool:
         return self._connection.connected.is_set()
