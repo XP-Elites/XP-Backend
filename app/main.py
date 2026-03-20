@@ -50,7 +50,7 @@ async def get_api_info(
     response: Response,
     health_check_service: HealthCheckService = Depends(get_health_check_service),
 ):
-    api_is_ok, health_body = health_check_service.get_api_status()
+    api_is_ok, health_body = await health_check_service.get_api_status()
     response.status_code = (
         status.HTTP_200_OK if api_is_ok else status.HTTP_503_SERVICE_UNAVAILABLE
     )

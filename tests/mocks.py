@@ -1,6 +1,7 @@
-from unittest.mock import AsyncMock, MagicMock
-from uuid import uuid4
+from unittest.mock import MagicMock
 import tempfile
+
+from edwh_uuid7 import uuid7
 
 
 class MockDatabaseService:
@@ -61,8 +62,8 @@ class MockJobStatusService:
     async def init(self):
         pass
 
-    async def init_status(self):
-        return uuid4()
+    def init_status(self):
+        return uuid7()
 
     async def send_job(self, uuid):
         pass

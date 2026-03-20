@@ -4,7 +4,6 @@ import dotenv
 
 from fastapi import Request
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import Session
 
 from core.database_service import DatabaseService, create_db_from_env
 from core.rabbit_service import RabbitService, create_rabbit_from_env
