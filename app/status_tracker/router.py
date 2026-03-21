@@ -12,7 +12,7 @@ from status_tracker.status_tracking_service import (
 status_router = APIRouter(prefix="/status")
 
 
-@status_router.get("/{job_uuid}")
+@status_router.get("/{uuid}")
 async def get_job_status(
     uuid: UUID,
     status_tracking_service: StatusTrackingService = Depends(
