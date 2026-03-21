@@ -45,7 +45,7 @@ class JobStatusService:
             result = await session.execute(
                 select(JobStatus).where(JobStatus.uuid == uuid)
             )
-            return await result.scalar_one_or_none()
+            return result.scalar_one_or_none()
 
     async def init_status(self) -> UUID:
         uuid = uuid7()  # V7 UUID with timestamp info
