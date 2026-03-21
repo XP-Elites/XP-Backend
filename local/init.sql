@@ -1,8 +1,11 @@
-CREATE TYPE statustypes as ENUM (
-'IN_QUEUE', 'PROCESSING', 'COMPLETE', 'ERROR'
+CREATE TYPE status_types AS ENUM (
+    'IN_QUEUE',
+    'PROCESSING',
+    'COMPLETE',
+    'ERROR'
 );
 
 CREATE TABLE job_status (
-    uuid UUID,
-    status statustypes
+    uuid UUID PRIMARY KEY,
+    status status_types NOT NULL DEFAULT 'IN_QUEUE'
 );

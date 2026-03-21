@@ -36,7 +36,7 @@ docker run -d \
   -v $PREFIX-rabbitmq-data:/var/lib/rabbitmq \
   -p 15672:15672 \
   -p 5672:5672 \
-  rabbitmq:3-management
+  rabbitmq:4.0.9-management
 
 echo "RabbitMQ and Postgres are running on network $NETWORK_NAME"
 echo "RabbitMQ management UI: http://localhost:15672"
