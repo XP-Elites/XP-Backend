@@ -30,12 +30,15 @@ class StatusTrackingService:
         job_status = await self._job_status_service.get_status(uuid)
         if job_status is None:
             raise JobNotFoundException()
+        processing_status = job_status.status
         result = None
-        if job_status == StatusTypes.COMPLETE:
+        if processing_status == StatusTypes.COMPLETE:
             result = self._storage_service.get_results_file(uuid)
             if result is None:
                 raise JobCorruptedException()
-        return {"uuid": uuid, "status": job_status, "result": result}
+        elif processing_status == StatusTypes.ERROR:
+            raise JobCorruptedException()
+        return {"uuid": uuid, "status":processing_status,"result": result}
 
 
 def get_status_tracking_service(
