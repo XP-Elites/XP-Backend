@@ -29,7 +29,7 @@ def get_var(name: str, default: str | None = None, use_ssm: bool = False) -> str
     if value is not None:
         logger.debug(f"Retrieved var from env: {name}")
         return value
-    if not use_ssm:
+    if use_ssm:
         try:
             ssm_value = (
                 ssm.get_parameter(Name=name, WithDecryption=True)
