@@ -35,10 +35,10 @@ class StatusTrackingService:
         if processing_status == StatusTypes.COMPLETE:
             result = self._storage_service.get_results_file(uuid)
             if result is None:
-                raise JobCorruptedException()
+                raise JobCorruptedException("No results file found")
         elif processing_status == StatusTypes.ERROR:
-            raise JobCorruptedException()
-        return {"uuid": uuid, "status":processing_status,"result": result}
+            raise JobCorruptedException("Container failed to process")
+        return {"uuid": uuid, "status": processing_status, "result": result}
 
 
 def get_status_tracking_service(

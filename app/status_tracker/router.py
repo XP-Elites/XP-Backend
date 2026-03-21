@@ -26,9 +26,9 @@ async def get_job_status(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Job not found: {uuid}",
         )
-    except JobCorruptedException:
+    except JobCorruptedException as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Job status file not found, please rerun job.",
+            detail=e
         )
     return job_status
