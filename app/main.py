@@ -1,7 +1,9 @@
 import logging
 import time
 
+import dotenv
 from fastapi import FastAPI, Response, status
+from fastapi.middleware.cors import CORSMiddleware
 from core.lifespan import lifespan
 from core.util import get_var
 from fastapi.params import Depends
@@ -13,9 +15,35 @@ from healthcheck import (
 from status_tracker.router import status_router
 from upload_file import upload_router
 
+
+def get_cors_origins() -> list[str]:
+    configured_origins = get_var(
+        "XP_WEBSERVER_CORS_ORIGINS",
+        "http://localhost:3000,http://127.0.0.1:3000,http://localhost:5173,http://127.0.0.1:5173",
+    )
+    if configured_origins.strip() == "*":
+        return ["*"]
+    return [
+        origin.strip()
+        for origin in configured_origins.split(",")
+        if origin.strip()
+    ]
+
+
+dotenv.load_dotenv()
+
 app = FastAPI(lifespan=lifespan)
 logging.basicConfig(level=logging.DEBUG)
 version = get_var("APP_VERSION", "0.0.0")
+cors_origins = get_cors_origins()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=cors_origins,
+    allow_credentials=cors_origins != ["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.middleware("http")
