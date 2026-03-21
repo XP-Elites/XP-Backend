@@ -29,13 +29,18 @@ class StorageService:
         self._base_storage = base_storage
         self._semaphore = asyncio.Semaphore(max_concurrency)
 
-    async def get_results_file(self, uuid: UUID) -> dict | None:
+    def get_results_file(self, uuid: UUID) -> dict | None:
         results_path = Path(self._base_storage) / str(uuid) / "results.json"
         if results_path.exists():
             with open(results_path, "r") as results_file:
                 results = json.load(results_file)
                 return results
         return None
+
+    def init_results_file(self, uuid: UUID):
+        results_path = Path(self._base_storage) / str(uuid) / "results.json"
+        if results_path.parent.exists():
+            results_path.touch(exist_ok=True)
 
     async def download_git_repo(self, link: str, uuid: UUID):
         if not self.is_ok():
@@ -47,6 +52,7 @@ class StorageService:
             await asyncio.to_thread(
                 Repo.clone_from, url=link, to_path=destination, depth=self.CLONE_DEPTH
             )
+            self.init_results_file(uuid)
 
     async def store_files(
         self,
@@ -57,6 +63,7 @@ class StorageService:
             raise ServiceNoStorageError
         base_dir = Path(f"{self._base_storage}/{uuid}")
         base_dir.mkdir(parents=True, exist_ok=True)
+        self.init_results_file(uuid)
         for file in files:
             # Browser folder uploads use webkitRelativePath; keep nested structure safely.
             normalized_name = file.filename.replace("\\", "/")
